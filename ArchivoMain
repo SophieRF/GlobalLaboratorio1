@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+//Como se ha pedido establecer los nombres de parámetros en ingles, hice todas las variables del programa con nombres en ingles
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> dnaValues = new ArrayList<>();
+
+        System.out.println("*--*--* Magneto VS X-Mens *--*--*");
+        System.out.println("Magneto quiere reclutar la mayor cantidad de mutantes para poder luchar contra los X-Mens!");
+        System.out.println("Para esto necesita detectar si un humano es mutante basándose en su secuencia de ADN");
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (dnaValues.size() < 6) {
+            boolean valid = true;
+/*Se pide al usuario ingresar una secuencia de letras para armar la ArrayaList de 6 x 6: */
+            System.out.print("Ingresa una secuencia de 6 letras. Solo puede incluir las letras A, T, C, G: ");
+            String inputStr = scanner.nextLine().toUpperCase();
+/*Se verifica que cada caracter ingresado en la cadena de texto sea compatible con
+lo pedido (caraceres A,T,C o G y un largo de 6 letras): */
+            if (inputStr.length() == 6) {
+                for (char character : inputStr.toCharArray()) {
+                    if (character != 'A' && character != 'T' && character != 'C' && character != 'G') {
+                        valid = false;
+                        break;
+                    }
+                }
+/*Si los valores ingresados son correctos, añadimos la cadena a la ArrayList, hasta tener un tablero 6 x 6,
+de lo contrario, se le pide al usuario que vuelva a ingresar los valores y/o cantidad de valores correspondientes: */
+                if (valid) {
+                    dnaValues.add(inputStr);
+                } else {
+                    System.out.println("Secuencia incorrecta. Debes ingresar los caracteres A, T, C o G.");
+                }
+            } else {
+                System.out.println("Cantidad incorrecta de caracteres. Debes ingresar 6.");
+            }
+        }
+        System.out.println("Cadenas de ADN ingresadas:");
+        for (String dnaSequence : dnaValues) {
+            System.out.println(dnaSequence);
+        }
+
+        System.out.println("¿Es mutante?: " + FuncionesGlobal.isMutant(dnaValues));
+    }
+}
+/*CASOS DE PRUEBA:
+_Es mutante:
+ACGGTA
+TATCTC
+GCAGGA
+TTCATT
+CCCCGG
+ATATAT
+_No es mutante:
+TTCGGC
+AGATCA
+TTCGGT
+GAATCC
+TCGATC
+GGTTAA
+*/
