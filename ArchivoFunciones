@@ -1,0 +1,69 @@
+import java.util.ArrayList;
+
+public class FuncionesGlobal {
+    ArrayList<String> dnaValues = new ArrayList<>();
+    public static boolean isMutant(ArrayList<String> dna) {
+        int countSequences = 0;
+        boolean mutantOrNot = false;
+
+        // BUCLE DE BÚSQUEDA ORIZONTAL:
+        for (String row : dna) {
+            for (int i = 0; i < 3; i++) {
+                //Se van comparando los dígitos de cada posición de la cadena:
+                if (row.charAt(i) == row.charAt(i + 1) && row.charAt(i) == row.charAt(i + 2) && row.charAt(i) == row.charAt(i + 3)) {
+                    countSequences++; //Se almacena el número de cadenas de caracteres iguales
+                }
+            }
+        }
+
+        // BUCLE DE BÚSQUEDA VERTICAL:
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 3; j++) {
+                StringBuilder sequence = new StringBuilder();
+                for (int k = 0; k < 4; k++) {
+                    //Se añade a la cadena la  posición en la fila j + k y columna i:
+                    sequence.append(dna.get(j + k).charAt(i));
+                }
+                //Comparación de dígitos:
+                if (sequence.charAt(0) == sequence.charAt(1) && sequence.charAt(0) == sequence.charAt(2) && sequence.charAt(0) == sequence.charAt(3)) {
+                    countSequences++;//Contador de cadenas de caracteres iguales
+                }
+            }
+        }
+
+        // BUCLE DE BÚSQUEDA DIAGONAL: desde arriba-izquierda hasta abajo-derecha:
+        for (int startRow = 0; startRow < 3; startRow++) {
+            for (int startCol = 0; startCol < 3; startCol++) {
+                StringBuilder sequence = new StringBuilder();
+                for (int i = 0; i < 4; i++) {
+                    /*Se almacena la posición de la fila + i y de la columna + i: */
+                    sequence.append(dna.get(startRow + i).charAt(startCol + i));
+                }
+                /*Comparación de dígitos: */
+                if (sequence.charAt(0) == sequence.charAt(1) && sequence.charAt(0) == sequence.charAt(2) && sequence.charAt(0) == sequence.charAt(3)) {
+                    countSequences++;/*Contador de cadenas de caracteres iguales*/
+                }
+            }
+        }
+
+        // BUCLE DE BÚSQUEDA DIAGONAL: desde arriba-derecha hasta abajo-izquierda:
+        for (int startRow = 0; startRow < 3; startRow++) {
+            /*Funcionamiento muy similar al anterior, solo que arrancamos desde la columna 3 a la 6: */
+            for (int startCol = 3; startCol < 6; startCol++) {
+                StringBuilder sequence = new StringBuilder();
+                for (int i = 0; i < 4; i++) {
+                    sequence.append(dna.get(startRow + i).charAt(startCol - i));
+                }
+                if (sequence.charAt(0) == sequence.charAt(1) && sequence.charAt(0) == sequence.charAt(2) && sequence.charAt(0) == sequence.charAt(3)) {
+                    countSequences++;
+                }
+            }
+        }
+
+        if (countSequences >= 2) {
+            mutantOrNot = true;
+        }
+
+        return mutantOrNot;
+    }
+}
